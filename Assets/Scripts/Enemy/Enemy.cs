@@ -4,14 +4,12 @@ using Assets.Scripts;
 
 [RequireComponent(typeof(EnemyMover))]
 [RequireComponent(typeof(EnemyShooter))]
-[RequireComponent(typeof(EnemyCollisionHandler))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
 public class Enemy : MonoBehaviour
 {
     private EnemyMover _enemyMover;
     private EnemyShooter _enemyShooter;
-    private EnemyCollisionHandler _collisionHandler;
     private bool _isDead;
     private Rigidbody2D _body2D;
 
@@ -21,11 +19,8 @@ public class Enemy : MonoBehaviour
     {
         _enemyMover = GetComponent<EnemyMover>();
         _enemyShooter = GetComponent<EnemyShooter>();
-        _collisionHandler = GetComponent<EnemyCollisionHandler>();
         _body2D = GetComponent<Rigidbody2D>();
-        _body2D.isKinematic = true;
-
-        _collisionHandler.CollisionDetected += ProcessCollision;
+        _body2D.bodyType = RigidbodyType2D.Kinematic;
     }
 
     public void Initialize(Action<Enemy> onDied, Bird bird)
@@ -33,14 +28,7 @@ public class Enemy : MonoBehaviour
         _onDied = onDied;
         _isDead = false;
 
-        _enemyShooter.Initialize();
         _enemyMover.Initialize(bird);
-    }
-
-    private void ProcessCollision(Collider2D other)
-    {
-        if (_isDead)
-            return;
     }
 
     public void Die()
@@ -58,11 +46,5 @@ public class Enemy : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-    }
-
-    private void OnDestroy()
-    {
-        if (_collisionHandler != null)
-            _collisionHandler.CollisionDetected -= ProcessCollision;
     }
 }

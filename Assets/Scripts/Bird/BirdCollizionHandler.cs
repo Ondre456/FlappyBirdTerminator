@@ -17,7 +17,6 @@ namespace Assets.Scripts
             {
                 CollizionDetected?.Invoke(interacatable);
             }
-
         }
     }
 }

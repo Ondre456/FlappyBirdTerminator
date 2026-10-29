@@ -37,8 +37,6 @@ namespace Assets.Scripts
 
             _isGameOver = true;
 
-            Debug.Log("Game Over!");
-
             if (_enemySpawner != null)
                 _enemySpawner.enabled = false;
 
@@ -48,14 +46,11 @@ namespace Assets.Scripts
 
         public void RestartGame()
         {
-            Debug.Log("asdasd");
             Time.timeScale = 1f;
 
             SceneManager.LoadScene(
                 SceneManager.GetActiveScene().buildIndex
             );
-
-            Debug.Log("asdasd");
         }
     }
 }

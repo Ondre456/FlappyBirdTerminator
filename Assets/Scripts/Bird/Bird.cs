@@ -8,11 +8,11 @@ namespace Assets.Scripts
     [RequireComponent(typeof(BirdShooter))]
     public class Bird : MonoBehaviour
     {
+        public event Action GameOver;
+
         private BirdMover _birdMover;
         private BirdCollizionHandler _birdCollizionHandler;
         private BirdShooter _birdShooter;
-
-        public event Action GameOver;
 
         private bool _isDead;
 
@@ -25,9 +25,10 @@ namespace Assets.Scripts
             _birdCollizionHandler.CollizionDetected += ProcessCollizion;
         }
 
-        private void ProcessCollizion(BoxCollider2D box)
+        private void OnDestroy()
         {
-            Die();
+            if (_birdCollizionHandler != null)
+                _birdCollizionHandler.CollizionDetected -= ProcessCollizion;
         }
 
         public void Die()
@@ -45,10 +46,9 @@ namespace Assets.Scripts
             _birdShooter.enabled = false;
         }
 
-        private void OnDestroy()
+        private void ProcessCollizion(BoxCollider2D box)
         {
-            if (_birdCollizionHandler != null)
-                _birdCollizionHandler.CollizionDetected -= ProcessCollizion;
+            Die();
         }
     }
 }

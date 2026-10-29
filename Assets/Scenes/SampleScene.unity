@@ -284,6 +284,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: aa6b70d0c36804f5db78c64336a457d2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 126319504}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: aa6b70d0c36804f5db78c64336a457d2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 126319513}
   m_SourcePrefab: {fileID: 100100000, guid: aa6b70d0c36804f5db78c64336a457d2, type: 3}
 --- !u!1 &126319503 stripped
 GameObject:
@@ -326,10 +329,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b07cb4b3b00b37b4f881be61b66f65ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.EnemyShooter
-  _bulletPrefab: {fileID: 1374130413}
   _shootInterval: 2
-  _defaultCapacity: 5
-  _maxSize: 20
+  _shootDirection: {x: -1, y: 0}
 --- !u!114 &126319507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,7 +388,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -420,6 +421,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &126319513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126319503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9c74668c0af69949a21049702e45888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.BulletSpawner
+  _bulletPrefab: {fileID: 1374130413}
+  _defaultCapacity: 10
+  _maxSize: 30
 --- !u!1 &145162695
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,6 +590,7 @@ GameObject:
   - component: {fileID: 369575671}
   - component: {fileID: 369575670}
   - component: {fileID: 369575669}
+  - component: {fileID: 369575678}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -605,10 +622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c344f859ef3a14f93e300be949bf79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.BirdShooter
-  _bulletPrefab: {fileID: 1374130413}
   _shootPoint: {fileID: 369575677}
-  _defaultCapacity: 10
-  _maxSize: 30
 --- !u!114 &369575671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -668,7 +682,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -798,6 +812,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &369575678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369575668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9c74668c0af69949a21049702e45888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.BulletSpawner
+  _bulletPrefab: {fileID: 1374130413}
+  _defaultCapacity: 10
+  _maxSize: 30
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1341,6 +1370,7 @@ GameObject:
   - component: {fileID: 1329110316}
   - component: {fileID: 1329110317}
   - component: {fileID: 1329110318}
+  - component: {fileID: 1329110319}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -1442,6 +1472,52 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!61 &1329110319
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329110315}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 19.2, y: 2.1}
+    newSize: {x: 19.2, y: 2.1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 19.2, y: 2.1}
+  m_EdgeRadius: 0
 --- !u!1 &1374130410
 GameObject:
   m_ObjectHideFlags: 0
@@ -1550,6 +1626,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Bullet
   _speed: 15
   _maxDistance: 20
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!70 &1374130414
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2017,6 +2096,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1919553900}
   - component: {fileID: 1919553901}
+  - component: {fileID: 1919553902}
   m_Layer: 0
   m_Name: Ground (1)
   m_TagString: Untagged
@@ -2099,6 +2179,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!65 &1919553902
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919553899}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 19.2, y: 2.1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

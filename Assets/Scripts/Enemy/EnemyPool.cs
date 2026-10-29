@@ -41,7 +41,6 @@ public class EnemySpawner : MonoBehaviour
         _scoreCounter = GetComponent<ScoreCounter>();
     }
 
-
     private void Update()
     {
         if (_bird == null || _activeEnemies >= _maxEnemies)
@@ -54,6 +53,12 @@ public class EnemySpawner : MonoBehaviour
             SpawnEnemy();
             _spawnTimer = 0f;
         }
+    }
+
+    private void OnDestroy()
+    {
+        _isDisposed = true;
+        _enemyPool?.Dispose();
     }
 
     private void SpawnEnemy()
@@ -107,11 +112,5 @@ public class EnemySpawner : MonoBehaviour
             _activeEnemies--;
 
         _enemyPool.Release(enemy);
-    }
-
-    private void OnDestroy()
-    {
-        _isDisposed = true;
-        _enemyPool?.Dispose();
     }
 }

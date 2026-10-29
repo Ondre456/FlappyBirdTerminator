@@ -31,18 +31,19 @@ public class EnemyMover : MonoBehaviour
         _horizontalSpeed = _minSpeed;
     }
 
-    public void Initialize(Bird bird)
-    {
-        _bird = bird;
-    }
-
     private void Update()
     {
         if (_bird == null)
+
             return;
 
         MoveHorizontally();
         MoveVertically();
+    }
+
+    public void Initialize(Bird bird)
+    {
+        _bird = bird;
     }
 
     private void MoveHorizontally()
@@ -53,8 +54,11 @@ public class EnemyMover : MonoBehaviour
         float targetSpeed = _horizontalSpeed;
 
         if (distance < _desiredDistance - _distanceTolerance)
+
             targetSpeed = _maxSpeed;
+
         else if (distance > _desiredDistance + _distanceTolerance)
+
             targetSpeed = _minSpeed;
 
         _horizontalSpeed = Mathf.MoveTowards(
@@ -76,6 +80,7 @@ public class EnemyMover : MonoBehaviour
         float differenceY = birdY - currentY;
 
         if (Mathf.Abs(differenceY) > _verticalTolerance)
+
             targetDirection = Mathf.Sign(differenceY);
 
         float avoidanceDirection = 0f;
@@ -92,6 +97,7 @@ public class EnemyMover : MonoBehaviour
                 neighbor.GetComponentInParent<EnemyMover>();
 
             if (other == null || other == this)
+
                 continue;
 
             float verticalDifference =

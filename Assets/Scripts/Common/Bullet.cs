@@ -11,33 +11,19 @@ namespace Assets.Scripts
 
     public class Bullet : MonoBehaviour
     {
+        [Header("Movement")]
         [SerializeField] private float _speed = 15f;
         [SerializeField] private float _maxDistance = 20f;
+
+        [Header("Collision")]
+        [SerializeField] private LayerMask _targetLayer;
 
         private Vector3 _startPosition;
         private Vector2 _direction;
         private Action<Bullet> _release;
-        private BulletOwner _owner;
-        private Transform _ownerTransform;
 
         private bool _isReleased;
         private bool _hasHit;
-
-        public void Initialize(
-            Vector2 direction,
-            Action<Bullet> release,
-            BulletOwner owner,
-            Transform ownerTransform)
-        {
-            _direction = direction.normalized;
-            _startPosition = transform.position;
-            _release = release;
-            _owner = owner;
-            _ownerTransform = ownerTransform;
-
-            _isReleased = false;
-            _hasHit = false;
-        }
 
         private void Update()
         {
@@ -59,39 +45,42 @@ namespace Assets.Scripts
             if (other == null || _isReleased || _hasHit)
                 return;
 
-            var bird = other.GetComponentInParent<Bird>();
-            var enemy = other.GetComponentInParent<Enemy>();
+            if ((_targetLayer.value & (1 << other.gameObject.layer)) == 0)
+                return;
 
-            switch (_owner)
+            Bird bird = other.GetComponentInParent<Bird>();
+
+            if (bird != null)
             {
-                case BulletOwner.Bird:
-                    if (IsBirdHit(bird)) return;
+                _hasHit = true;
+                bird.Die();
+                ReturnToPool();
 
-                    if (IsEnemyHit(enemy))
-                    {
-                        _hasHit = true;
-                        enemy.Die();
-                        ReturnToPool();
-                    }
-                    break;
+                return;
+            }
 
-                case BulletOwner.Enemy:
+            Enemy enemy = other.GetComponentInParent<Enemy>();
 
-                    if (IsBirdHit(bird))
-                    {
-                        _hasHit = true;
-                        bird.Die();
-                        ReturnToPool();
-                    }
-
-                    break;
+            if (enemy != null)
+            {
+                _hasHit = true;
+                enemy.Die();
+                ReturnToPool();
             }
         }
 
-        private bool IsBirdHit(Bird bird) => bird != null;
-
-        private bool IsEnemyHit(Enemy enemy) => enemy != null;
-
+        public void Initialize(
+            Vector2 direction,
+            Action<Bullet> release,
+            BulletOwner owner,
+            Transform ownerTransform)
+        {
+            _direction = direction.normalized;
+            _startPosition = transform.position;
+            _release = release;
+            _isReleased = false;
+            _hasHit = false;
+        }
 
         private void ReturnToPool()
         {
